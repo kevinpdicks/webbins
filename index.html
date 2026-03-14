@@ -5,7 +5,7 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPGVsbGlwc2UgY3g9IjE2IiBjeT0iMTciIHJ4PSI1IiByeT0iNiIgZmlsbD0iIzAwZDRmZiIvPgogIDxjaXJjbGUgY3g9IjE2IiBjeT0iOSIgcj0iMy41IiBmaWxsPSIjMDBkNGZmIi8+CiAgPGNpcmNsZSBjeD0iMTQuNSIgY3k9IjguNSIgcj0iMSIgZmlsbD0iIzBhMGMwZiIvPgogIDxjaXJjbGUgY3g9IjE3LjUiIGN5PSI4LjUiIHI9IjEiIGZpbGw9IiMwYTBjMGYiLz4KICA8bGluZSB4MT0iMTEiIHkxPSIxNCIgeDI9IjMiIHkyPSIxMCIgc3Ryb2tlPSIjMDBkNGZmIiBzdHJva2Utd2lkdGg9IjEuOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGxpbmUgeDE9IjExIiB5MT0iMTciIHgyPSIyIiB5Mj0iMTciIHN0cm9rZT0iIzAwZDRmZiIgc3Ryb2tlLXdpZHRoPSIxLjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxsaW5lIHgxPSIxMSIgeTE9IjIwIiB4Mj0iMyIgeTI9IjI0IiBzdHJva2U9IiMwMGQ0ZmYiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8bGluZSB4MT0iMTIiIHkxPSIyMiIgeDI9IjUiIHkyPSIyOCIgc3Ryb2tlPSIjMDBkNGZmIiBzdHJva2Utd2lkdGg9IjEuOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGxpbmUgeDE9IjIxIiB5MT0iMTQiIHgyPSIyOSIgeTI9IjEwIiBzdHJva2U9IiMwMGQ0ZmYiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8bGluZSB4MT0iMjEiIHkxPSIxNyIgeDI9IjMwIiB5Mj0iMTciIHN0cm9rZT0iIzAwZDRmZiIgc3Ryb2tlLXdpZHRoPSIxLjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxsaW5lIHgxPSIyMSIgeTE9IjIwIiB4Mj0iMjkiIHkyPSIyNCIgc3Ryb2tlPSIjMDBkNGZmIiBzdHJva2Utd2lkdGg9IjEuOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGxpbmUgeDE9IjIwIiB5MT0iMjIiIHgyPSIyNyIgeTI9IjI4IiBzdHJva2U9IiMwMGQ0ZmYiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8bGluZSB4MT0iMTYiIHkxPSIzIiB4Mj0iMTYiIHkyPSI2IiBzdHJva2U9IiMwMGQ0ZmYiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Quick-reference commands and payloads for web application penetration testing. 55 techniques, searchable, filterable.">
-<title>WebBins (55) — Web App Pentesting Reference</title>
+<title>WebBins</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -20,12 +20,25 @@
   --r:6px;--rl:12px;
 }
 /* light mode */
+/* light mode: system preference OR explicit toggle */
 @media(prefers-color-scheme:light){
-  :root{
+  :root:not([data-theme="dark"]){
     --bg:#ffffff;--surface:#f6f8fa;--s2:#eaeef2;
     --border:#d0d7de;--border2:#c6cdd5;
     --text:#1f2328;--text2:#636c76;--text3:#a0aab4;
   }
+}
+/* explicit light toggle (overrides dark system preference) */
+:root[data-theme="light"]{
+  --bg:#ffffff;--surface:#f6f8fa;--s2:#eaeef2;
+  --border:#d0d7de;--border2:#c6cdd5;
+  --text:#1f2328;--text2:#636c76;--text3:#a0aab4;
+}
+/* explicit dark toggle (overrides light system preference) */
+:root[data-theme="dark"]{
+  --bg:#0d1117;--surface:#161b22;--s2:#1c2128;
+  --border:#30363d;--border2:#3d444d;
+  --text:#e6edf3;--text2:#8b949e;--text3:#484f58;
 }
 body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.5;min-height:100vh;transition:background .2s,color .2s}
 ::-webkit-scrollbar{width:6px;height:6px}
@@ -660,12 +673,25 @@ if (lsGet('wb_density')==='comfortable'){
 // ── theme toggle ──────────────────────────────────────────────────────────
 (function(){
   const saved = lsGet('wb_theme');
-  if (saved==='light') document.documentElement.setAttribute('data-theme','light');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+  // Set initial button icon once DOM is ready
+  window.addEventListener('DOMContentLoaded', () => {
+    const theme = document.documentElement.getAttribute('data-theme');
+    const btn = document.getElementById('themeBtn');
+    if (btn) btn.textContent = theme === 'light' ? '☾' : '☀';
+  });
 })();
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  lsSet('wb_theme', theme);
+  // ☀ = light, ☾ = dark
+  document.getElementById('themeBtn').textContent = theme === 'light' ? '☾' : '☀';
+}
 document.getElementById('themeBtn').addEventListener('click', () => {
-  const isLight = document.documentElement.getAttribute('data-theme')==='light';
-  document.documentElement.setAttribute('data-theme', isLight ? 'dark' : 'light');
-  lsSet('wb_theme', isLight ? 'dark' : 'light');
+  const current = document.documentElement.getAttribute('data-theme');
+  // Determine actual current mode (account for system pref)
+  const isDark = current === 'dark' || (!current && !window.matchMedia('(prefers-color-scheme: light)').matches);
+  applyTheme(isDark ? 'light' : 'dark');
 });
 
 // ── deep link ─────────────────────────────────────────────────────────────
@@ -740,7 +766,7 @@ fetch('./data.json?v='+VER)
     document.getElementById('statE').textContent=DATA.length;
     document.getElementById('statT').textContent=allTags.size;
     // Update title with count
-    document.title='WebBins ('+DATA.length+') — Web App Pentesting Reference';
+    document.title='WebBins';
     render();
     renderRecent();
     checkHash();
