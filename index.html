@@ -2,6 +2,8 @@
 <html lang="en-GB">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPGVsbGlwc2UgY3g9IjE2IiBjeT0iMTciIHJ4PSI1IiByeT0iNiIgZmlsbD0iIzAwZDRmZiIvPgogIDxjaXJjbGUgY3g9IjE2IiBjeT0iOSIgcj0iMy41IiBmaWxsPSIjMDBkNGZmIi8+CiAgPGNpcmNsZSBjeD0iMTQuNSIgY3k9IjguNSIgcj0iMSIgZmlsbD0iIzBhMGMwZiIvPgogIDxjaXJjbGUgY3g9IjE3LjUiIGN5PSI4LjUiIHI9IjEiIGZpbGw9IiMwYTBjMGYiLz4KICA8bGluZSB4MT0iMTEiIHkxPSIxNCIgeDI9IjMiIHkyPSIxMCIgc3Ryb2tlPSIjMDBkNGZmIiBzdHJva2Utd2lkdGg9IjEuOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGxpbmUgeDE9IjExIiB5MT0iMTciIHgyPSIyIiB5Mj0iMTciIHN0cm9rZT0iIzAwZDRmZiIgc3Ryb2tlLXdpZHRoPSIxLjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxsaW5lIHgxPSIxMSIgeTE9IjIwIiB4Mj0iMyIgeTI9IjI0IiBzdHJva2U9IiMwMGQ0ZmYiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8bGluZSB4MT0iMTIiIHkxPSIyMiIgeDI9IjUiIHkyPSIyOCIgc3Ryb2tlPSIjMDBkNGZmIiBzdHJva2Utd2lkdGg9IjEuOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGxpbmUgeDE9IjIxIiB5MT0iMTQiIHgyPSIyOSIgeTI9IjEwIiBzdHJva2U9IiMwMGQ0ZmYiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8bGluZSB4MT0iMjEiIHkxPSIxNyIgeDI9IjMwIiB5Mj0iMTciIHN0cm9rZT0iIzAwZDRmZiIgc3Ryb2tlLXdpZHRoPSIxLjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxsaW5lIHgxPSIyMSIgeTE9IjIwIiB4Mj0iMjkiIHkyPSIyNCIgc3Ryb2tlPSIjMDBkNGZmIiBzdHJva2Utd2lkdGg9IjEuOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGxpbmUgeDE9IjIwIiB5MT0iMjIiIHgyPSIyNyIgeTI9IjI4IiBzdHJva2U9IiMwMGQ0ZmYiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8bGluZSB4MT0iMTYiIHkxPSIzIiB4Mj0iMTYiIHkyPSI2IiBzdHJva2U9IiMwMGQ0ZmYiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WebBins</title>
@@ -55,7 +57,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
   width:36px;height:36px;border-radius:8px;
   background:linear-gradient(135deg,#1f6feb,#58a6ff);
   display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;overflow:visible;
+  flex-shrink:0;
 }
 .logo-name{font-size:18px;font-weight:600;letter-spacing:-.3px;color:var(--text)}
 .logo-name span{color:var(--accent)}
@@ -212,24 +214,18 @@ body.comfortable .entry-title{font-size:14px}
   <header class="header">
     <div class="header-top">
       <div class="logo">
-        <div class="logo-mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" style="display:block">
-  <!-- web thread -->
-  <line x1="12" y1="0" x2="12" y2="4" stroke="rgba(255,255,255,0.7)" stroke-width="1" stroke-linecap="round"/>
-  <!-- body -->
-  <ellipse cx="12" cy="14.5" rx="3.8" ry="4.5" fill="white"/>
-  <!-- head -->
-  <circle cx="12" cy="8.5" r="2.8" fill="white"/>
-  <!-- eyes -->
-  <circle cx="10.8" cy="8" r="0.8" fill="#1a56cc"/>
-  <circle cx="13.2" cy="8" r="0.8" fill="#1a56cc"/>
-  <!-- legs left (3 pairs, spread nicely) -->
-  <line x1="8.5" y1="12" x2="2" y2="9"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-  <line x1="8.2" y1="14.5" x2="1" y2="14.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-  <line x1="8.5" y1="17" x2="2" y2="20" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-  <!-- legs right -->
-  <line x1="15.5" y1="12" x2="22" y2="9"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-  <line x1="15.8" y1="14.5" x2="23" y2="14.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-  <line x1="15.5" y1="17" x2="22" y2="20" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        <div class="logo-mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22">
+  <line x1="12" y1="1" x2="12" y2="4.5" stroke="rgba(255,255,255,0.6)" stroke-width="1" stroke-linecap="round"/>
+  <circle cx="12" cy="8" r="3" fill="white"/>
+  <circle cx="10.7" cy="7.4" r="0.75" fill="#1f6feb"/>
+  <circle cx="13.3" cy="7.4" r="0.75" fill="#1f6feb"/>
+  <ellipse cx="12" cy="16" rx="4" ry="5" fill="white"/>
+  <line x1="9" y1="12.5" x2="3.5" y2="10" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+  <line x1="8.5" y1="15.5" x2="3" y2="15.5" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+  <line x1="9" y1="18.5" x2="3.5" y2="21" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+  <line x1="15" y1="12.5" x2="20.5" y2="10" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+  <line x1="15.5" y1="15.5" x2="21" y2="15.5" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+  <line x1="15" y1="18.5" x2="20.5" y2="21" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
 </svg></div>
         <div class="logo-name">Web<span>Bins</span></div>
       </div>
@@ -340,7 +336,7 @@ body.comfortable .entry-title{font-size:14px}
 // ── App ───────────────────────────────────────────────────────────────────
 const CAT_COLORS = {"API": "#38bdf8", "Authentication": "#f59e0b", "File": "#22c55e", "Injection": "#ef4444", "Misc": "#94a3b8", "Recon": "#818cf8", "Source Code": "#c084fc", "Web Shells": "#fb923c"};
 const OWASP_LABELS = {"A01": "Broken Access Control", "A02": "Cryptographic Failures", "A03": "Injection", "A04": "Insecure Design", "A05": "Security Misconfiguration", "A06": "Vulnerable Components", "A07": "Auth Failures", "A08": "Integrity Failures", "A09": "Logging Failures", "A10": "SSRF"};
-const VER = '0dadfaf0';
+const VER = 'b4f03b';
 
 let DATA = [];
 let q = '', activeFilter = 'all', activeDiff = '', activeOwasp = '';
