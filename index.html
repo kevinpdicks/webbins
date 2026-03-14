@@ -9,7 +9,17 @@
 
 <!-- Apply saved theme before page renders to avoid flash -->
 <script>
-(function(){
+// Immediately unregister stale service workers so fresh HTML is always served
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(function(regs) {
+    regs.forEach(function(r) { r.unregister(); });
+  });
+  if (window.caches) {
+    caches.keys().then(function(keys) { keys.forEach(function(k) { caches.delete(k); }); });
+  }
+}
+// Apply saved theme before render to avoid flash
+(function() {
   try {
     var t = localStorage.getItem('wb_theme');
     if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
@@ -486,7 +496,13 @@ render();
 renderRV();
 
 // service worker (optional — site works without it)
-if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
+// Unregister any old service workers and clear their caches
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(regs => {
+    regs.forEach(r => r.unregister());
+  });
+  caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
+}
 window.addEventListener('online',()=>toast('Back online'));
 window.addEventListener('offline',()=>toast('Offline — using cache',3000));
 </script>
