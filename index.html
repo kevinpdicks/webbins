@@ -50,7 +50,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14
 .header{padding:28px 0 18px;border-bottom:1px solid var(--border)}
 .header-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .logo{display:flex;align-items:center;gap:10px}
-.logo-mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#1f6feb,#58a6ff);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;font-size:12px;color:#fff;flex-shrink:0}
+.logo-mark{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#1f6feb,#58a6ff);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
 .logo-name{font-size:18px;font-weight:600;letter-spacing:-.3px}
 .logo-name span{color:var(--accent)}
 .header-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -217,7 +217,21 @@ body.comfortable .entry-title{font-size:14px}
   <header class="header">
     <div class="header-top">
       <div class="logo">
-        <div class="logo-mark">W</div>
+        <div class="logo-mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="26" height="26">
+  <ellipse cx="16" cy="17" rx="5" ry="6" fill="white"/>
+  <circle cx="16" cy="9" r="3.5" fill="white"/>
+  <circle cx="14.5" cy="8.5" r="0.9" fill="#1f6feb"/>
+  <circle cx="17.5" cy="8.5" r="0.9" fill="#1f6feb"/>
+  <line x1="11" y1="14" x2="3" y2="10" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="11" y1="17" x2="2" y2="17" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="11" y1="20" x2="3" y2="24" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="12" y1="22" x2="5" y2="28" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="21" y1="14" x2="29" y2="10" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="21" y1="17" x2="30" y2="17" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="21" y1="20" x2="29" y2="24" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="20" y1="22" x2="27" y2="28" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="16" y1="3" x2="16" y2="6" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+</svg></div>
         <div class="logo-name">Web<span>Bins</span></div>
       </div>
       <div class="header-right">
